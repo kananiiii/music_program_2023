@@ -1,15 +1,15 @@
 //Library: use Sketch / Import Library / Minim
-import processing.sound.*;
 import ddf.minim.*;
 import ddf.minim.analysis.*;
 import ddf.minim.effects.*;
 import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
+import processing.sound.*;
 //
 //Global Variables
 Minim minim; //creates object to access all functions
-AudioPlayer song1; //creates "Play List" variable holding extensions WAV, AIFF, AU, SND, and MP3
+AudioPlayer song1;  //creates "Play List" variable holding extensions WAV, AIFF, AU, SND, and MP3;
 //
 void setup() {
   //size() or fullScreen()
@@ -17,7 +17,7 @@ void setup() {
   minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
   String Start_Your_Engines = "Start_Your_Engines.mp3";
   String extension = ".mp3";
-  String pathway = "FreeWare Music/MusicDownload/"; //Relative Path
+  String pathway = "Start_Your_Engines"; //Relative Path
   String path = sketchPath( pathway + Start_Your_Engines ); //Absolute Path
   // See: https://poanchen.github.io/blog/2016/11/15/how-to-add-background-music-in-processing-3.0
   println();
@@ -72,6 +72,7 @@ void keyPressed() {
   if ( key=='F' || key=='f' ) song1.skip( 0 ); //SKIP forward 1 second (1000 milliseconds)
   if ( key=='R' || key=='r' ) song1.skip( 1000 ); //SKIP  backawrds 1 second, notice negative, (-1000 milliseconds)
 } //End keyPressed
+//
 //
 void mousePressed() {
 } //End mousePressed
