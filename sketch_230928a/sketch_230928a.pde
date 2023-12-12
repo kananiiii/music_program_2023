@@ -5,24 +5,52 @@ import ddf.minim.effects.*;
 import ddf.minim.signals.*;
 import ddf.minim.spi.*;
 import ddf.minim.ugens.*;
-import processing.sound.*;
 //
 //Global Variables
 Minim minim; //creates object to access all functions
-AudioPlayer song1;  //creates "Play List" variable holding extensions WAV, AIFF, AU, SND, and MP3;
+AudioPlayer song1; //creates "Play List" variable holding extensions WAV, AIFF, AU, SND, and MP3
+AudioMetaData songMetaData1; //Stores everything from PlayList Properties TAB (.mp3)
+PFont generalFont;
+color purple = #9869A5;
 //
-void setup() {
+void setup() { 
   //size() or fullScreen()
   //Display Algorithm
   minim = new Minim(this); //load from data directory, loadFile should also load from project folder, like loadImage
   String Start_Your_Engines = "Start_Your_Engines.mp3";
   String extension = ".mp3";
-  String pathway = "Start_Your_Engines"; //Relative Path
+  String pathway = "FreeWare Music/MusicDownload/"; //Relative Path
   String path = sketchPath( pathway + Start_Your_Engines ); //Absolute Path
   // See: https://poanchen.github.io/blog/2016/11/15/how-to-add-background-music-in-processing-3.0
-  println();
+  println(path);
   song1 = minim.loadFile( path );
+  songMetaData1 = song1.getMetaData();
+ generalFont = createFont ( "Algerian" , 55 );
   //song1.loop(0);
+  //
+  //Meta Data Println Testing
+  //For Prototyping, print all information to the console first
+  //Verifying Meta Data, 18 println's 
+  //Repeat: println("?", songMetaData1.?() );
+  println("File Name", songMetaData1.fileName() ); //Data Correct, Verified in Console
+  //Must use pure Java at OS Level to list fileName before loading Playlist
+  println("Song Length (in milliseconds)", songMetaData1.length() );
+  println("Song Length (in seconds)", songMetaData1.length()/1000 ); 
+  println("Song Length (in minutes & seconds)", songMetaData1.length()/1000/60, "minutes", ( songMetaData1.length()/1000 - ( songMetaData1.length()/1000/60)*60 ), "seconds" ); //Gets Formula
+  println("Song Title", songMetaData1.title() );
+  println("Author", songMetaData1.author() );
+  println("Composer", songMetaData1.composer() );
+  println("Orchestra", songMetaData1.orchestra() );
+  println("Album", songMetaData1.album() );
+  println("Disk", songMetaData1.disc() );
+  println("Publisher", songMetaData1.publisher() );
+  println("Date Released", songMetaData1.date() );
+  println("Copyright", songMetaData1.copyright() );
+  println("Comments", songMetaData1.comment() );
+  println("Lyrics", songMetaData1.lyrics() ); //OPTIONAL: Music App Sing Along
+  println("Track", songMetaData1.track() );
+  println("Genre", songMetaData1.genre() );
+  println("Encoded", songMetaData1.encoded() );
 } //End setup
 //
 void draw() {
@@ -33,12 +61,23 @@ void draw() {
   if ( song1.isPlaying() && !song1.isLooping() ) println("Play Once");
   //
   //Debugging Fast Forward and Fast Rewind
-  println( "Song Position", song1.position(), "Song Length", song1.length() );
+  //println( "Song Position", song1.position(), "Song Length", song1.length() );
   //
+  // songMetaData1.title()
+  // songMetaData1.title()
+  rect(width*1/4, height*0, width*1/2, height*3/10); //mistake
+  fill(purple); //Ink
+  textAlign (CENTER, CENTER); //Align X&Y, see Processing.org / Reference
+  //Values: [LEFT | CENTER | RIGHT] & [TOP | CENTER | BOTTOM | BASELINE]
+  int size = 9; //Change this font size
+  textFont(generalFont, size); //Change the number until it fits, largest font size
+  text(songMetaData1.title(), width*1/4, height*0, width*1/2, height*3/10);
+  fill(255); //Reset to white for rest of the program
 } //End draw
 //
 void keyPressed() {
   if ( key=='P' || key=='p' ) song1.play(); //Parameter is milli-seconds from start of audio file to start playing (illustrate with examples)
+  //.play() includes .rewind()
   //
   if ( key>='1' || key<='9' ) { //Loop Button, previous (key=='1' || key=='9')
     //Note: "9" is assumed to be massive! "Simulate Infinite"
@@ -71,8 +110,25 @@ void keyPressed() {
   //Actual .skip() allows for varaible ff & fr using .position()+-
   if ( key=='F' || key=='f' ) song1.skip( 0 ); //SKIP forward 1 second (1000 milliseconds)
   if ( key=='R' || key=='r' ) song1.skip( 1000 ); //SKIP  backawrds 1 second, notice negative, (-1000 milliseconds)
+  //
+  //Simple STOP Behaviour: ask if .playing() & .pause() & .rewind(), or .rewind()
+  if ( key=='S' | key=='s' ) {
+    if ( song1.isPlaying() ) {
+      song1.pause(); //auto .rewind()
+    } else {
+      song1.rewind(); //Not Necessary
+    }
+  }
+  //
+  //Simple Pause Behaviour: .pause() & hold .position(), then PLAY
+  if ( key=='Y' | key=='y' ) {
+    if ( song1.isPlaying()==true ) {
+      song1.pause(); //auto .rewind()
+    } else {
+      song1.play(); //ERROR, doesn't play
+    }
+  }
 } //End keyPressed
-//
 //
 void mousePressed() {
 } //End mousePressed
