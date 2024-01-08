@@ -12,7 +12,7 @@ import ddf.minim.ugens.*;
 File musicFolder; //Class for java.io.* library
 Minim minim; //creates object to access all functions
 int numberOfSongs = 1; //Placeholder Only, reexecute lines after fileCount Known
-AudioPlayer[]l playList = new AudioPlayer[numberOfSongs]; //song is now similar to song1
+AudioPlayer[] playList = new AudioPlayer[numberOfSongs]; //song is now similar to song1
 AudioMetaData[] playListMetaData = new AudioMetaData[numberOfSongs]; //same as above
 PFont generalFont;
 color purple = #9869A5;
